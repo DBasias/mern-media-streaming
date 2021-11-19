@@ -10,6 +10,7 @@ const config = {
       ":" +
       (process.env.MONGO_PORT || "27017") +
       "/mern-media-streaming",
+  serverUrl: process.env.serverUrl || "http://localhost:3000",
 };
 
 export default config;

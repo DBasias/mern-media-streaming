@@ -9,6 +9,9 @@ router
   .route("/api/media/new/:userId")
   .post(authCtrl.requireSignin, mediaCtrl.create);
 
+router.route("/api/media/video/:videoId").get(mediaCtrl.video);
+
 router.param("userId", userCtrl.userByID);
+router.param("videoId", mediaCtrl.mediaById);
 
 export default router;

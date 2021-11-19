@@ -1,3 +1,5 @@
+import config from "../../config/config";
+
 const create = async (params, credentials, media) => {
   try {
     let response = await fetch("/api/media/new/" + params.userId, {
@@ -15,4 +17,20 @@ const create = async (params, credentials, media) => {
   }
 };
 
-export { create };
+const read = async (params, signal) => {
+  try {
+    let response = await fetch(
+      config.serverUrl + "/api/media/" + params.mediaId,
+      {
+        method: "GET",
+        signal: signal,
+      }
+    );
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, read };
