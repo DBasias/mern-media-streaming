@@ -33,4 +33,21 @@ const read = async (params, signal) => {
   }
 };
 
-export { create, read };
+const listPopular = async signal => {
+  try {
+    let response = await fetch("/api/media/listPopular", {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, read, listPopular };

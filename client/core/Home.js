@@ -1,68 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
-import unicornbikeImg from "./../assets/images/unicornbike.jpg";
+import { Card, Typography } from "@material-ui/core";
+import MediaList from "../media/MediaList";
+import { listPopular } from "../media/api-media";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 600,
-    margin: "auto",
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(5),
+    margin: `${theme.spacing(5)}px 30px`,
   },
   title: {
-    padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
-      2
-    )}px`,
-    color: theme.palette.openTitle,
+    padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px 0px`,
+    color: theme.palette.text.secondary,
+    fontSize: "1em",
   },
   media: {
-    minHeight: 400,
-  },
-  credit: {
-    padding: 10,
-    textAlign: "right",
-    backgroundColor: "#ededed",
-    borderBottom: "1px solid #d0d0d0",
-    "& a": {
-      color: "#3f4771",
-    },
+    minHeight: 330,
   },
 }));
 
 export default function Home() {
   const classes = useStyles();
+  const [media, setMedia] = useState([]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    listPopular(signal).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setMedia(data);
+      }
+    });
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, []);
+
   return (
     <Card className={classes.card}>
-      <Typography variant="h6" className={classes.title}>
-        Home Page
+      <Typography variant="h2" className={classes.title}>
+        Popular Videos
       </Typography>
-      <CardMedia
-        className={classes.media}
-        image={unicornbikeImg}
-        title="Unicorn Bicycle"
-      />
-      <Typography
-        variant="body2"
-        component="p"
-        className={classes.credit}
-        color="textSecondary"
-      >
-        Photo by{" "}
-        <a
-          href="https://unsplash.com/@boudewijn_huysmans"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Boudewijn Huysmans
-        </a>{" "}
-        on Unsplash
-      </Typography>
-      <CardContent>
-        <Typography variant="body1" component="p">
-          Welcome to the MERN Media Streaming home page.
-        </Typography>
-      </CardContent>
+      <MediaList media={media} />
     </Card>
   );
 }

@@ -89,6 +89,22 @@ const video = (req, res) => {
   }
 };
 
+const listPopular = async (req, res) => {
+  try {
+    let media = await Media.find({})
+      .limit(9)
+      .populate("postedBy", "_id name")
+      .sort("-views")
+      .exec();
+
+    return res.json(media);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
 const mediaById = async (req, res, next, id) => {
   try {
     let media = await Media.findById(id)
@@ -121,4 +137,4 @@ const mediaById = async (req, res, next, id) => {
   }
 };
 
-export default { create, video, mediaById };
+export default { create, video, listPopular, mediaById };
