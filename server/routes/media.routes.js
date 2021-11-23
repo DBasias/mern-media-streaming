@@ -13,6 +13,8 @@ router.route("/api/media/video/:videoId").get(mediaCtrl.video);
 
 router.route("/api/media/listPopular").get(mediaCtrl.listPopular);
 
+router.route("/api/media/by/:userId").get(mediaCtrl.listByUser);
+
 router.param("userId", userCtrl.userByID);
 router.param("videoId", mediaCtrl.mediaById);
 

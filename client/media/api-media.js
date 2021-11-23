@@ -50,4 +50,20 @@ const listPopular = async signal => {
   }
 };
 
-export { create, read, listPopular };
+const listByUser = async params => {
+  try {
+    let response = await fetch("/api/media/by/" + params.userId, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, read, listPopular, listByUser };
