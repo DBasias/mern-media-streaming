@@ -21,10 +21,7 @@ const read = async (params, signal) => {
   try {
     let response = await fetch(
       config.serverUrl + "/api/media/" + params.mediaId,
-      {
-        method: "GET",
-        signal: signal,
-      }
+      { method: "GET", signal: signal }
     );
 
     return await response.json();

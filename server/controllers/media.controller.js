@@ -4,7 +4,6 @@ import errorHandler from "../helpers/dbErrorHandler";
 import Media from "../models/media.model";
 
 import mongoose from "mongoose";
-import { RssFeed } from "@material-ui/icons";
 let gridfs = null;
 mongoose.connection.on("connected", () => {
   gridfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db);
@@ -120,6 +119,26 @@ const listByUser = async (req, res) => {
   }
 };
 
+const incrementViews = async (req, res, next) => {
+  try {
+    await Media.findByIdAndUpdate(
+      req.media._id,
+      { $inc: { views: 1 } },
+      { new: true }
+    ).exec();
+
+    next();
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
+const read = (req, res) => {
+  return res.json(req.media);
+};
+
 const mediaById = async (req, res, next, id) => {
   try {
     let media = await Media.findById(id)
@@ -152,4 +171,12 @@ const mediaById = async (req, res, next, id) => {
   }
 };
 
-export default { create, video, listPopular, listByUser, mediaById };
+export default {
+  create,
+  video,
+  listPopular,
+  listByUser,
+  incrementViews,
+  read,
+  mediaById,
+};
