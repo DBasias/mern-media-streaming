@@ -9,6 +9,7 @@ import Profile from "./user/Profile";
 import PrivateRoute from "./auth/PrivateRoute";
 import Menu from "./core/Menu";
 import NewMedia from "./media/NewMedia";
+import EditMedia from "./media/EditMedia";
 
 const MainRouter = () => {
   return (
@@ -23,6 +24,7 @@ const MainRouter = () => {
         <Route path="/user/:userId" component={Profile} />
 
         <PrivateRoute path="/media/new" component={NewMedia} />
+        <PrivateRoute path="/media/edit/:mediaId" component={EditMedia} />
       </Switch>
     </div>
   );
