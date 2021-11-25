@@ -63,4 +63,22 @@ const listByUser = async params => {
   }
 };
 
-export { create, read, listPopular, listByUser };
+const update = async (params, credentials, media) => {
+  try {
+    let response = await fetch("/api/media/" + params.mediaId, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: JSON.stringify(media),
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, read, listPopular, listByUser, update };

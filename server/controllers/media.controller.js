@@ -1,5 +1,6 @@
 import fs from "fs";
 import formidable from "formidable";
+import { extend } from "lodash";
 import errorHandler from "../helpers/dbErrorHandler";
 import Media from "../models/media.model";
 
@@ -139,6 +140,34 @@ const read = (req, res) => {
   return res.json(req.media);
 };
 
+const isPoster = async (req, res, next) => {
+  let isPoster =
+    req.media && req.auth && req.media.postedBy._id == req.auth._id;
+
+  if (!isPoster) {
+    return res.status(403).json({
+      error: "User is not authorized",
+    });
+  }
+
+  next();
+};
+
+const update = async (req, res) => {
+  try {
+    let media = req.media;
+    media = extend(media, req.body);
+    media.updated = Date.now();
+    await media.save();
+
+    return res.json(media);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
 const mediaById = async (req, res, next, id) => {
   try {
     let media = await Media.findById(id)
@@ -178,5 +207,7 @@ export default {
   listByUser,
   incrementViews,
   read,
+  isPoster,
+  update,
   mediaById,
 };
