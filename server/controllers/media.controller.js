@@ -168,6 +168,20 @@ const update = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  try {
+    let media = req.media;
+    let deletedMedia = await media.remove();
+    gridfs.delete(req.file._id);
+
+    return res.json(deletedMedia);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
 const mediaById = async (req, res, next, id) => {
   try {
     let media = await Media.findById(id)
@@ -209,5 +223,6 @@ export default {
   read,
   isPoster,
   update,
+  remove,
   mediaById,
 };

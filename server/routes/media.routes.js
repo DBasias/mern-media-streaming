@@ -18,7 +18,8 @@ router.route("/api/media/by/:userId").get(mediaCtrl.listByUser);
 router
   .route("/api/media/:mediaId")
   .get(mediaCtrl.incrementViews, mediaCtrl.read)
-  .put(authCtrl.requireSignin, mediaCtrl.isPoster, mediaCtrl.update);
+  .put(authCtrl.requireSignin, mediaCtrl.isPoster, mediaCtrl.update)
+  .delete(authCtrl.requireSignin, mediaCtrl.isPoster, mediaCtrl.remove);
 
 router.param("userId", userCtrl.userByID);
 router.param("mediaId", mediaCtrl.mediaById);
