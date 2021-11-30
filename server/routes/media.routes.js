@@ -15,6 +15,8 @@ router.route("/api/media/listPopular").get(mediaCtrl.listPopular);
 
 router.route("/api/media/by/:userId").get(mediaCtrl.listByUser);
 
+router.route("/api/media/related/:mediaId").get(mediaCtrl.listRelated);
+
 router
   .route("/api/media/:mediaId")
   .get(mediaCtrl.incrementViews, mediaCtrl.read)

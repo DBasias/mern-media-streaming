@@ -98,4 +98,21 @@ const remove = async (params, credentials) => {
   }
 };
 
-export { create, read, listPopular, listByUser, update, remove };
+const listRelated = async (params, signal) => {
+  try {
+    let response = await fetch("/api/media/related/" + params.mediaId, {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, read, listPopular, listByUser, update, remove, listRelated };

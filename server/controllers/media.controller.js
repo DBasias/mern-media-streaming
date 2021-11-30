@@ -182,6 +182,25 @@ const remove = async (req, res) => {
   }
 };
 
+const listRelated = async (req, res) => {
+  try {
+    let media = await Media.find({
+      _id: { $ne: req.media },
+      genre: req.media.genre,
+    })
+      .limit(4)
+      .sort("-views")
+      .populate("postedBy", "_id name")
+      .exec();
+
+    return res.json(media);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
 const mediaById = async (req, res, next, id) => {
   try {
     let media = await Media.findById(id)
@@ -224,5 +243,6 @@ export default {
   isPoster,
   update,
   remove,
+  listRelated,
   mediaById,
 };
