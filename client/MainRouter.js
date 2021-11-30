@@ -10,6 +10,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import Menu from "./core/Menu";
 import NewMedia from "./media/NewMedia";
 import EditMedia from "./media/EditMedia";
+import PlayMedia from "./media/PlayMedia";
 
 const MainRouter = () => {
   return (
@@ -25,6 +26,7 @@ const MainRouter = () => {
 
         <PrivateRoute path="/media/new" component={NewMedia} />
         <PrivateRoute path="/media/edit/:mediaId" component={EditMedia} />
+        <Route path="/media/:mediaId" component={PlayMedia} />
       </Switch>
     </div>
   );
