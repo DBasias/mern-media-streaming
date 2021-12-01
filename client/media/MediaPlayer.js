@@ -60,7 +60,7 @@ export default function MediaPlayer(props) {
   let playerRef = useRef(null);
 
   useEffect(() => {
-    if (screenfull.enabled) {
+    if (screenfull.isEnabled) {
       screenfull.on("change", () => {
         let fullscreen = screenfull.isFullscreen ? true : false;
         setFullscreen(fullscreen);
