@@ -58,23 +58,20 @@ export default function PlayMedia(props) {
   }, [props.match.params.mediaId]);
 
   const handleChange = event => {
-    setAutoPlay(event.target.value);
+    setAutoPlay(event.target.checked);
   };
 
-  const handleAutoPlay = updateMediaControls => {
+  const handleAutoplay = updateMediaControls => {
     let playList = relatedMedia;
     let playMedia = playList[0];
-
-    if (!autoPlay || playList.length == 0) {
-      return updateMediaControls();
-    }
+    if (!autoPlay || playList.length == 0) return updateMediaControls();
 
     if (playList.length > 1) {
       playList.shift();
       setMedia(playMedia);
       setRelatedMedia(playList);
     } else {
-      listRelated({ mediaId: playMedia }).then(data => {
+      listRelated({ mediaId: playMedia._id }).then(data => {
         if (data.error) {
           console.log(data.error);
         } else {
