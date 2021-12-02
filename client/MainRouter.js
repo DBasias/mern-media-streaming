@@ -12,7 +12,7 @@ import NewMedia from "./media/NewMedia";
 import EditMedia from "./media/EditMedia";
 import PlayMedia from "./media/PlayMedia";
 
-const MainRouter = () => {
+const MainRouter = ({ data }) => {
   return (
     <div>
       <Menu />
@@ -26,7 +26,10 @@ const MainRouter = () => {
 
         <PrivateRoute path="/media/new" component={NewMedia} />
         <PrivateRoute path="/media/edit/:mediaId" component={EditMedia} />
-        <Route path="/media/:mediaId" component={PlayMedia} />
+        <Route
+          path="/media/:mediaId"
+          render={props => <PlayMedia {...props} data={data} />}
+        />
       </Switch>
     </div>
   );
